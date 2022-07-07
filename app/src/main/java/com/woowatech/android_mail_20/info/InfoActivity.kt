@@ -42,6 +42,7 @@ class InfoActivity : AppCompatActivity() {
                     viewModel.email.value
                 )
                 startActivity(intent)
+                finish()
             }
         }
     }

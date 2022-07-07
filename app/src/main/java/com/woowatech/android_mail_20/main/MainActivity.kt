@@ -12,16 +12,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val fragmentManager = supportFragmentManager
-    }
-
-    override fun onBackPressed() {
-        val fragmentManager = supportFragmentManager
-        if (fragmentManager.backStackEntryCount == 0) {
-            super.onBackPressed()
-        } else {
-            fragmentManager.popBackStack()
-        }
     }
 }

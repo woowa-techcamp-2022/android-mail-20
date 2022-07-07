@@ -15,4 +15,13 @@ class MainActivity : AppCompatActivity() {
 
         val fragmentManager = supportFragmentManager
     }
+
+    override fun onBackPressed() {
+        val fragmentManager = supportFragmentManager
+        if (fragmentManager.backStackEntryCount == 0) {
+            super.onBackPressed()
+        } else {
+            fragmentManager.popBackStack()
+        }
+    }
 }

@@ -3,8 +3,8 @@ package com.woowatech.android_mail_20.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentManager
 import com.woowatech.android_mail_20.R
 import com.woowatech.android_mail_20.databinding.ActivityMainBinding
 import com.woowatech.android_mail_20.main.mail.MailFragment
@@ -37,14 +37,20 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
-                R.id.mail -> fragmentManager
-                    .beginTransaction()
-                    .replace(binding.fragmentContainerView.id, mailFragment)
-                    .commit()
-                R.id.setting -> fragmentManager
-                    .beginTransaction()
-                    .replace(binding.fragmentContainerView.id, settingFragment)
-                    .commit()
+                R.id.mail -> {
+                    fragmentManager
+                        .beginTransaction()
+                        .replace(binding.fragmentContainerView.id, mailFragment)
+                        .commit()
+                    binding.toolbar.visibility = View.VISIBLE
+                }
+                R.id.setting -> {
+                    fragmentManager
+                        .beginTransaction()
+                        .replace(binding.fragmentContainerView.id, settingFragment)
+                        .commit()
+                    binding.toolbar.visibility = View.GONE
+                }
             }
             return@setOnItemSelectedListener true
         }
@@ -52,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         with(binding) {
-            if (bottomNavigationView.selectedItemId == R.id.mail) {
+            if (bottomNavigationView.selectedItemId != R.id.mail) {
                 super.onBackPressed()
             } else {
                 bottomNavigationView.selectedItemId = R.id.mail

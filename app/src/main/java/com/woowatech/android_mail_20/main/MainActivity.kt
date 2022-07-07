@@ -21,6 +21,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         with(binding) {
+            toolbar.setNavigationOnClickListener {
+                drawerLayout.open()
+            }
+
             navigationView.setNavigationItemSelectedListener {
                 viewModel.listType.value = when (it.itemId) {
                     R.id.primary -> ListType.Primary

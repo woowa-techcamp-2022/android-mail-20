@@ -5,6 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.woowatech.android_mail_20.databinding.ActivityInfoBinding
+import com.woowatech.android_mail_20.main.MainActivity
 
 class InfoActivity : AppCompatActivity() {
 
@@ -34,6 +35,14 @@ class InfoActivity : AppCompatActivity() {
                 btnNext.isEnabled = !(viewModel.getNicknameError() && viewModel.getEmailError())
             }
 
+            btnNext.setOnClickListener {
+                val intent = MainActivity.getIntent(
+                    this@InfoActivity,
+                    viewModel.nickname.value,
+                    viewModel.email.value
+                )
+                startActivity(intent)
+            }
         }
     }
 }

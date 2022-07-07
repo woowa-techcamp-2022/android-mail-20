@@ -1,4 +1,4 @@
-package com.woowatech.android_mail_20.main
+package com.woowatech.android_mail_20.main.mail
 
 import androidx.lifecycle.ViewModel
 import com.woowatech.android_mail_20.entity.Mail
@@ -6,7 +6,7 @@ import com.woowatech.android_mail_20.main.instance.MailObject.mailRepository
 import com.woowatech.android_mail_20.response.MailResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 
-class MainViewModel: ViewModel() {
+class MailViewModel: ViewModel() {
     val listType = MutableStateFlow(ListType.Primary)
 
     private val _mailList = MutableStateFlow<List<Mail>>(emptyList())

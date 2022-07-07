@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">android-mail-20</string>
+    <string name="button_next">next</string>
+    <string name="edt_please_set_nickname">닉네임</string>
 </resources>

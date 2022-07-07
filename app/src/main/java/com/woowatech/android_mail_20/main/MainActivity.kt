@@ -3,6 +3,8 @@ package com.woowatech.android_mail_20.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.woowatech.android_mail_20.databinding.ActivityMainBinding
+import com.woowatech.android_mail_20.extension.add
+import com.woowatech.android_mail_20.main.info.InfoFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +15,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val infoFragment = InfoFragment {
+            //replace main page
+        }
+
         val fragmentManager = supportFragmentManager
+        fragmentManager.add(binding.fragmentContainerViewMain, infoFragment)
     }
 
     override fun onBackPressed() {

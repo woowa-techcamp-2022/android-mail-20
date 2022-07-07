@@ -7,4 +7,6 @@
     <string name="primary">Primary</string>
     <string name="social">Social</string>
     <string name="promotion">Promotion</string>
+    <string name="mail">Mail</string>
+    <string name="setting">Setting</string>
 </resources>

@@ -3,8 +3,12 @@ package com.woowatech.android_mail_20.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.woowatech.android_mail_20.R
 import com.woowatech.android_mail_20.databinding.ActivityMainBinding
+import com.woowatech.android_mail_20.main.mail.MailFragment
+import com.woowatech.android_mail_20.main.setting.SettingFragment
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,20 +19,38 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        with(binding) {
-            toolbar.setNavigationOnClickListener {
-                drawerLayout.open()
+        val mailFragment = MailFragment()
+        val settingFragment = SettingFragment()
+
+        val fragmentManager = supportFragmentManager
+
+        fragmentManager.beginTransaction()
+            .add(binding.fragmentContainerView.id, mailFragment)
+            .add(binding.fragmentContainerView.id, settingFragment)
+            .commit()
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.mail -> fragmentManager
+                    .beginTransaction()
+                    .replace(binding.fragmentContainerView.id, mailFragment)
+                    .commit()
+                R.id.setting -> fragmentManager
+                    .beginTransaction()
+                    .replace(binding.fragmentContainerView.id, settingFragment)
+                    .commit()
             }
+            return@setOnItemSelectedListener true
+        }
 
-            navigationView.setNavigationItemSelectedListener {
-                viewModel.listType.value = when (it.itemId) {
-                    R.id.primary -> ListType.Primary
-                    R.id.social -> ListType.Social
-                    R.id.promotion -> ListType.Promotion
-                    else -> ListType.Primary
-                }
+    }
 
-                return@setNavigationItemSelectedListener true
+    override fun onBackPressed() {
+        with(binding) {
+            if (bottomNavigationView.selectedItemId == R.id.mail) {
+                super.onBackPressed()
+            } else {
+                bottomNavigationView.selectedItemId = R.id.mail
             }
         }
     }

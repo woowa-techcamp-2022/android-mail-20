@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">android-mail-20</string>
+    <string name="nickname">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="next">next</string>
 </resources>

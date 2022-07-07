@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import com.woowatech.android_mail_20.R
 import com.woowatech.android_mail_20.databinding.ActivityMainBinding
 import com.woowatech.android_mail_20.main.mail.MailFragment
@@ -18,6 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        init()
+    }
+
+    private fun init() {
 
         val mailFragment = MailFragment()
         val settingFragment = SettingFragment()
@@ -42,7 +48,6 @@ class MainActivity : AppCompatActivity() {
             }
             return@setOnItemSelectedListener true
         }
-
     }
 
     override fun onBackPressed() {

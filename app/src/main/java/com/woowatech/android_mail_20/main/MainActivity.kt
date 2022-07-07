@@ -26,7 +26,10 @@ class MainActivity : AppCompatActivity() {
     private fun init() {
 
         val mailFragment = MailFragment()
-        val settingFragment = SettingFragment()
+        val settingFragment = SettingFragment.getSettingFragment(
+            intent.getStringExtra(NICKNAME)?:"",
+            intent.getStringExtra(EMAIL)?:""
+        )
 
         val fragmentManager = supportFragmentManager
 

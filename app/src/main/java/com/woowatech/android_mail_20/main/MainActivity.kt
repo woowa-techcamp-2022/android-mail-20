@@ -25,6 +25,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun init() {
 
+        binding.toolbar.setNavigationOnClickListener {
+            binding.drawerLayout.open()
+        }
+
         val mailFragment = MailFragment()
         val settingFragment = SettingFragment.getSettingFragment(
             intent.getStringExtra(NICKNAME)?:"",

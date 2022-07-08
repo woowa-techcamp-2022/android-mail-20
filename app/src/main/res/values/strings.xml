@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">android-mail-20</string>
+    <string name="nickname">닉네임</string>
+    <string name="email">이메일</string>
+    <string name="next">next</string>
+    <string name="w_mail">W Mail</string>
+    <string name="primary">Primary</string>
+    <string name="social">Social</string>
+    <string name="promotion">Promotion</string>
+    <string name="mail">Mail</string>
+    <string name="setting">Setting</string>
+    <string name="user">사용자명</string>
 </resources>

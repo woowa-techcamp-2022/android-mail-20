@@ -101,10 +101,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (navigationBar.selectedItemId != R.id.mail) {
-            super.onBackPressed()
-        } else {
-            navigationBar.selectedItemId = R.id.mail
+        with(viewModel) {
+            if (tabType.value == TabType.MailTab && listType.value == ListType.Primary
+            ) {
+                super.onBackPressed()
+            } else {
+                tabType.value = TabType.MailTab
+                listType.value = ListType.Primary
+            }
         }
     }
 

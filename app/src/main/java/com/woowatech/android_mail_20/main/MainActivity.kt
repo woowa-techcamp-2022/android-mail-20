@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fragmentContainerView: FragmentContainerView
     private lateinit var navigationBar: NavigationBarView
 
+    private lateinit var mailFragment: MailFragment
+    private lateinit var settingFragment: SettingFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -37,9 +40,52 @@ class MainActivity : AppCompatActivity() {
         navigationView = binding.navigationView
         fragmentContainerView = binding.fragmentContainerView
         navigationBar = binding.navigationBar as NavigationBarView
+        mailFragment = MailFragment()
+        settingFragment = SettingFragment.getSettingFragment(
+            intent?.getStringExtra(NICKNAME) ?: "",
+            intent?.getStringExtra(EMAIL) ?: ""
+        )
 
         initFragments()
         initListeners()
+        initStateFlow()
+    }
+
+    private fun initStateFlow() {
+        val fragmentManager = supportFragmentManager
+        lifecycleScope.launch {
+            viewModel.tabType.collect {
+                with(fragmentManager.beginTransaction()) {
+                    when (it) {
+                        TabType.MailTab -> {
+                            replace(fragmentContainerView.id, mailFragment)
+                            navigationBar.selectedItemId = R.id.mail
+                        }
+                        TabType.SettingTab -> {
+                            replace(fragmentContainerView.id, settingFragment)
+                            navigationBar.selectedItemId = R.id.setting
+                        }
+                    }
+                    commit()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.listType.collect {
+                when (it) {
+                    ListType.Primary -> {
+                        navigationView.setCheckedItem(R.id.primary)
+                    }
+                    ListType.Social -> {
+                        navigationView.setCheckedItem(R.id.social)
+                    }
+                    ListType.Promotion -> {
+                        navigationView.setCheckedItem(R.id.promotion)
+                    }
+                }
+            }
+        }
     }
 
     private fun initListeners() {
@@ -68,11 +114,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initFragments() {
-        val mailFragment = MailFragment()
-        val settingFragment = SettingFragment.getSettingFragment(
-            intent.getStringExtra(NICKNAME) ?: "",
-            intent.getStringExtra(EMAIL) ?: ""
-        )
 
         val fragmentManager = supportFragmentManager
         with(fragmentManager.beginTransaction()) {
@@ -80,34 +121,16 @@ class MainActivity : AppCompatActivity() {
             add(fragmentContainerView.id, settingFragment)
             commit()
         }
-
-        lifecycleScope.launch {
-            viewModel.tabType.collect {
-                with(fragmentManager.beginTransaction()) {
-                    when (it) {
-                        TabType.MailTab -> {
-                            replace(fragmentContainerView.id, mailFragment)
-                            navigationBar.selectedItemId = R.id.mail
-                        }
-                        TabType.SettingTab -> {
-                            replace(fragmentContainerView.id, settingFragment)
-                            navigationBar.selectedItemId = R.id.setting
-                        }
-                    }
-                    commit()
-                }
-            }
-        }
     }
 
     override fun onBackPressed() {
         with(viewModel) {
-            if (tabType.value == TabType.MailTab && listType.value == ListType.Primary
-            ) {
+            if (tabType.value == TabType.MailTab && listType.value == ListType.Primary) {
                 super.onBackPressed()
+            } else if (tabType.value == TabType.MailTab && listType.value != ListType.Primary) {
+                listType.value = ListType.Primary
             } else {
                 tabType.value = TabType.MailTab
-                listType.value = ListType.Primary
             }
         }
     }

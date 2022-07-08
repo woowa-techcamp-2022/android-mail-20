@@ -8,6 +8,7 @@ import com.woowatech.android_mail_20.response.MailResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 
 class MainViewModel: ViewModel() {
+    val tabType = MutableStateFlow(TabType.MailTab)
     val listType = MutableStateFlow(ListType.Primary)
 
     private val _mailList = MutableStateFlow<List<Mail>>(emptyList())

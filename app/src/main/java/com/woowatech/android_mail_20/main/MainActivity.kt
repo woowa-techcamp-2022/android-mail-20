@@ -16,6 +16,7 @@ import com.woowatech.android_mail_20.databinding.ActivityMainBinding
 import com.woowatech.android_mail_20.main.mail.ListType
 import com.woowatech.android_mail_20.main.mail.MailFragment
 import com.woowatech.android_mail_20.main.setting.SettingFragment
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +56,15 @@ class MainActivity : AppCompatActivity() {
             }
             return@setNavigationItemSelectedListener true
         }
+
+        navigationBar.setOnItemSelectedListener {
+            viewModel.tabType.value = when(it.itemId) {
+                R.id.mail -> TabType.MailTab
+                R.id.setting -> TabType.SettingTab
+                else -> TabType.MailTab
+            }
+            return@setOnItemSelectedListener true
+        }
     }
 
     private fun initFragments() {
@@ -71,18 +81,30 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
+        lifecycleScope.launch {
+            viewModel.tabType.collect {
+                with(fragmentManager.beginTransaction()) {
+                    when (it) {
+                        TabType.MailTab -> {
+                            replace(fragmentContainerView.id, mailFragment)
+                            navigationBar.selectedItemId = R.id.mail
+                        }
+                        TabType.SettingTab -> {
+                            replace(fragmentContainerView.id, settingFragment)
+                            navigationBar.selectedItemId = R.id.setting
+                        }
+                    }
+                    commit()
+                }
             }
         }
     }
 
     override fun onBackPressed() {
-        with(binding) {
-            if (bottomNavigationView?.selectedItemId != R.id.mail || navigationRailView?.selectedItemId != R.id.mail) {
-                super.onBackPressed()
-            } else {
-                bottomNavigationView.selectedItemId = R.id.mail
-                navigationRailView.selectedItemId = R.id.mail
-            }
+        if (navigationBar.selectedItemId != R.id.mail) {
+            super.onBackPressed()
+        } else {
+            navigationBar.selectedItemId = R.id.mail
         }
     }
 
